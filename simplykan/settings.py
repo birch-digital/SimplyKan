@@ -68,6 +68,9 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'boards:dashboard'
+LOGIN_URL = 'login'
+
 WSGI_APPLICATION = 'simplykan.wsgi.application'
 
 
