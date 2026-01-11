@@ -1,11 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ board.title }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}{{ board.title }}{% endblock %}
+
+{% block content %}
     <h1>{{ board.title }}</h1>
     <p>{{ board.description }}</p>
-</body>
-</html>
+
+    <a href="{% url 'boards:add_task' board.id %}">Add Task</a>
+
+    <h2>Tasks</h2>
+
+    <section>
+        <h3>TODO</h3>
+        <ul>
+            {% for task in tasks %}
+                {% if task.state == 0 %}
+                <li>{{ task.title }}: {{ task.get_state_display }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No tasks yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h3>WIP</h3>
+        <ul>
+            {% for task in tasks %}
+                {% if task.state == 1 %}
+                <li>{{ task.title }}: {{ task.get_state_display }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No tasks yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h3>DONE</h3>
+        <ul>
+            {% for task in tasks %}
+                {% if task.state == 2 %}
+                <li>{{ task.title }}: {{ task.get_state_display }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No tasks yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

@@ -16,7 +16,6 @@ class Board(models.Model):
     def __str__(self):
         return self.title
 
-
 ## Tasks: Have state and belong to only one project
 class Task(models.Model):
     class State(models.IntegerChoices):
