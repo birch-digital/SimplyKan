@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %}SimplyKan{% endblock %}</title>
 </head>
 <body>
-
+    <header>
+        <h1>SimplyKan</h1>
+        <p>User: {{ request.user.username }}</p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+    <main>
+        <nav>
+            <a href="{% url 'boards:dashboard' %}">Dashboard</a>
+        </nav>
+        <section>
+            {% block content %}
+            {% endblock %}
+        </section>
+    </main>
 </body>
 </html>

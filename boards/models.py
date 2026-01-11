@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Models
-## Board containing tasks per project/category; users can have multiple boards
+## Boards: Contain tasks per project/category; users can have multiple boards
 class Board(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
@@ -17,7 +17,7 @@ class Board(models.Model):
         return self.title
 
 
-## Tasks have state and belong to only one project
+## Tasks: Have state and belong to only one project
 class Task(models.Model):
     class State(models.IntegerChoices):
         TODO = 0
