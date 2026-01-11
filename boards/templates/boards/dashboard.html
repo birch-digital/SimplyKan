@@ -35,7 +35,7 @@
         <ul>
             {% for board in boards %}
             <li>
-                {{ board.title }}
+                <a href="{% url 'boards:board_detail' board.id %}">{{ board.title }}</a>
                 <br>
                 {{ board.description }}
             </li>

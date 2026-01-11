@@ -46,6 +46,14 @@ def create_board(request):
 
     return redirect('boards:dashboard')
 
+### Board details
+@login_required
+def board_detail(request, board_id):
+    board = get_object_or_404(Board, id=board_id, owner=request.user)
+    tasks = Task.objects.filter(board=board).order_by('-timestamp')         # Can remove the order_by for custom ordering if needs be
+
+    return render(request, 'boards/board_detail.html', {'board': board, 'tasks': tasks})
+
 ### Task creation
 @login_required
 def add_task(request, board_id):
