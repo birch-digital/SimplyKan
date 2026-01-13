@@ -3,79 +3,125 @@
 {% block title %}{{ board.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ board.title }}</h1>
-    <p>{{ board.description }}</p>
-
-    <a href="{% url 'boards:add_task' board.id %}">Add Task</a>
-
-    <h2>Tasks</h2>
-
-    <section>
-        <h3>TODO</h3>
-        <ul>
-            {% for task in tasks %}
-                {% if task.state == 0 %}
-                <li>
-                    {{ task.task_title }}
-                    <form method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
-                        {% csrf_token %}
-                        <select name="state" onchange="this.form.submit()">
-                            {% for value, label in task.State.choices %}
-                            <option value="{{ value }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </li>
+<div class="limit-width">
+    <div class="kanban-view-header">
+        <h1>{{ board.title }}</h1>
+        <a class="button green" href="{% url 'boards:add_task' board.id %}">Add Task</a>
+    </div>
+    <p class="kanban-board-desc">{{ board.description }}</p>
+    <section class="kanban-columns">
+        <div class="column" style="border-top: 3px solid #af0000;">
+            <div class="title-bar">
+                <h3 style="color: #af0000;">TODO</h3>
+                <div class="task-count">{{ counts.todo }} tasks</div>
+            </div>
+            <ul>
+                {% for task in tasks %}
+                    {% if task.state == 0 %}
+                    <li>
+                        <div class="task-title-bar">
+                            {{ task.task_title }}
+                        </div>
+                        <div class="task-timestamp">Updated On:&nbsp;{{ task.timestamp }}</div>
+                        <div class="task-detail">
+                            <p>{{ task.task_details }}</p>
+                            <form class="task-change-state" method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
+                                {% csrf_token %}
+                                <label class="task-state">Change Status:</label>
+                                <select class="change-task-state" name="state" onchange="this.form.submit()">
+                                    {% for value, label in task.State.choices %}
+                                        {% if task.state == value %}
+                                            <option selected value="{{ value }}">{{ label }}</option>
+                                        {% else %}
+                                            <option value="{{ value }}">{{ label }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                {% if counts.todo == 0 %}
+                    <li class="no-tasks">Nothing left to do!</li>
                 {% endif %}
-            {% empty %}
-                <li>No tasks yet.</li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h3>WIP</h3>
-        <ul>
-            {% for task in tasks %}
-                {% if task.state == 1 %}
-                <li>
-                    {{ task.task_title }}
-                    <form method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
-                        {% csrf_token %}
-                        <select name="state" onchange="this.form.submit()">
-                            {% for value, label in task.State.choices %}
-                            <option value="{{ value }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </li>
+            </ul>
+        </div>
+        <div class="column" style="border-top: 3px solid orange;">
+            <div class="title-bar">
+                <h3 style="color: orange;">WIP</h3>
+                <div class="task-count">{{ counts.wip }} tasks</div>
+            </div>
+            <ul>
+                {% for task in tasks %}
+                    {% if task.state == 1 %}
+                    <li>
+                        <div class="task-title-bar">
+                            {{ task.task_title }}
+                        </div>
+                        <div class="task-timestamp">Updated On:&nbsp;{{ task.timestamp }}</div>
+                        <div class="task-detail">
+                            <p>{{ task.task_details }}</p>
+                            <form class="task-change-state" method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
+                                {% csrf_token %}
+                                <label class="task-state">Change Status:</label>
+                                <select class="change-task-state" name="state" onchange="this.form.submit()">
+                                    {% for value, label in task.State.choices %}
+                                        {% if task.state == value %}
+                                            <option selected value="{{ value }}">{{ label }}</option>
+                                        {% else %}
+                                            <option value="{{ value }}">{{ label }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                {% if counts.wip == 0 %}
+                    <li class="no-tasks">Nothing in progress!</li>
                 {% endif %}
-            {% empty %}
-                <li>No tasks yet.</li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h3>DONE</h3>
-        <ul>
-            {% for task in tasks %}
-                {% if task.state == 2 %}
-                <li>
-                    {{ task.task_title }}
-                    <form method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
-                        {% csrf_token %}
-                        <select name="state" onchange="this.form.submit()">
-                            {% for value, label in task.State.choices %}
-                            <option value="{{ value }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <div class="title-bar">
+                <h3 style="color: green;">DONE</h3>
+                <div class="task-count">{{ counts.done }} tasks</div>
+            </div>
+            <ul>
+                {% for task in tasks %}
+                    {% if task.state == 2 %}
+                    <li>
+                        <div class="task-title-bar">
+                            {{ task.task_title }}
+                        </div>
+                        <div class="task-timestamp">Updated On:&nbsp;{{ task.timestamp }}</div>
+                        <div class="task-detail">
+                            <p>{{ task.task_details }}</p>
+                            <form class="task-change-state" method="post" action="{% url 'boards:update_task_state' board.id task.id %}">
+                                {% csrf_token %}
+                                <label class="task-state">Change Status:</label>
+                                <select class="change-task-state" name="state" onchange="this.form.submit()">
+                                    {% for value, label in task.State.choices %}
+                                        {% if task.state == value %}
+                                            <option selected value="{{ value }}">{{ label }}</option>
+                                        {% else %}
+                                            <option value="{{ value }}">{{ label }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                {% if counts.done == 0 %}
+                    <li class="no-tasks">Nothing done yet!</li>
                 {% endif %}
-            {% empty %}
-                <li>No tasks yet.</li>
-            {% endfor %}
-        </ul>
+            </ul>
+        </div>
     </section>
+    <a class="button" href="{% url 'boards:dashboard' %}">Back to All Boards</a>
+</div>
 {% endblock %}

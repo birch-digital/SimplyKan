@@ -3,36 +3,87 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Boards</h1>
-
-    <h2>Create a new Kanban board</h2>
-    <form action="{% url 'boards:create_board' %}" method="post">
+<dialog id="_add_dialog">
+    <h1>Create New Board</h1>
+    <form class="create" action="{% url 'boards:create_board' %}" method="post">
         {% csrf_token %}
-        <div>
+        <div class="input-row">
             {{ form.title.label_tag }}
             {{ form.title }}
         </div>
-        <div>
+        <div class="input-row">
             {{ form.description.label_tag }}
             {{ form.description }}
         </div>
-        <button type="submit">Create board</button>
+        <button class="green" type="submit">Create Board</button>
+        <button class="cancel" id="_dialog_close" type="button">Cancel</button>
     </form>
-
-    <br><br><br>
-
-    <h2>Current boards</h2>
+</dialog>
+<div class="limit-width">
+<button class="green" style="float: right;" id="_add_board">Add New Board</button>
+<h1>Your Boards</h1>
     {% if boards %}
-        <ul>
-            {% for board in boards %}
-            <li>
-                <a href="{% url 'boards:board_detail' board.id %}">{{ board.title }}</a>
-                <br>
+    <div class="boards">
+        {% for board in boards %}
+        <div class="board">
+            <div class="title-bar">
+                <h2>{{ board.title }}</h2>
+                <div class="status">{{ board.done }}/{{ board.total }} complete</div>
+            </div>
+            {% if board.total > 0 %}
+                <div class="progress-bar">
+                    {% if board.todo > 0 %}
+                        {{ board.todostyle|safe }}
+                    {% endif %}
+                    {% if board.wip > 0 %}
+                        {{ board.wipstyle|safe }}
+                    {% endif %}
+                    {% if board.done > 0 %}
+                        {{ board.donestyle|safe }}
+                    {% endif %}
+                </div>
+            {% endif %}
+            <p class="desc">
                 {{ board.description }}
-            </li>
-            {% endfor %}
-        </ul>
+            </p>
+            <div class="task-progress">
+                <div class="item todo">
+                    <div class="title">TODO</div>
+                    <div class="count">{{ board.todo }}</div>
+                </div>
+                <div class="item wip">
+                    <div class="title">WIP</div>
+                    <div class="count">{{ board.wip }}</div>
+                </div>
+                <div class="item done">
+                    <div class="title">DONE</div>
+                    <div class="count">{{ board.done }}</div>
+                </div>
+            </div>
+            <a class="button" href="{% url 'boards:board_detail' board.id %}">View This Board</a>
+        </div>
+        {% endfor %}
+    </ul>
     {% else %}
-        <p>No boards currently!</p>
+        <div class="no-boards-notice">
+            <h2>You've got no Kanban boards!</h2>
+            <p>Add a new Kanban board using the button below to get started!</p>
+            <button class="green" id="_add_board_secondary">Add New Board</button>
+        </div>
     {% endif %}
+    </div>
+</div>
+<script>
+    let dialog = document.getElementById('_add_dialog');
+    document.getElementById('_add_board').addEventListener('click', function() {
+        dialog.showModal();
+    });
+    let secondary = document.getElementById('_add_board_secondary');
+    if (secondary !== null) {secondary.addEventListener('click', function() {
+        dialog.showModal();
+    })}
+    document.getElementById('_dialog_close').addEventListener('click', function() {
+        dialog.close();
+    })
+</script>
 {% endblock %}

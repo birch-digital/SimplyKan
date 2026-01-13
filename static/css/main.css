@@ -1,6 +1,492 @@
+:root {
+    --colour-primary: #007A8D;
+    --colour-secondary: #0099B0;
+    --colour-text: #2E2E2E;
+    --colour-bg: #EFF2F2;
+}
+
 body, html {
     margin: 0px;
     padding: 0px;
     font-size: 16px;
-    color: red;
+    font-family: 'Lexend', sans-serif;
+    color: var(--colour-text);
+}
+
+body {
+    background: var(--colour-bg);
+}   
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+p {
+    line-height: 1.7;
+}
+
+dialog {
+    border: none;
+    box-sizing: border-box;
+    padding: 60px;
+    border-radius: 5px;
+}
+
+dialog h1 {
+    margin-top: 0px;
+}
+
+dialog::backdrop {
+  background-color: rgba(24,24,24,0.7);
+  backdrop-filter: blur(5px);
+}
+
+input, textarea, select {
+    font-family: inherit;
+    box-sizing: border-box;
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: 1px solid #878787;
+    display: block;
+    width: 100%;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+form .input-row:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+form.create button {
+    background-color: white;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.limit-width {
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0px 20px;
+}
+
+.limit-width.wide {
+    max-width: 1400px;
+}
+
+.limit-width.login {
+    max-width: 600px;
+}
+
+.header-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    box-sizing: border-box;
+    padding: 20px 0px;
+    border-bottom: 2px solid var(--colour-primary);
+}
+
+header .lockup {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header h1 {
+    margin: 0px;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--colour-primary);
+}
+
+header h1 span {
+    color: var(--colour-secondary);
+    font-weight: 700;
+}
+
+button, a.button, .account-pill {
+    border-radius: 50px;
+    box-sizing: border-box;
+    padding: 12px 24px;
+    border: 2px solid var(--colour-primary);
+    color: var(--colour-primary);
+    text-decoration: none;
+    display: inline-block;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button.green, a.button.green {
+    border-color: green;
+    color: green;
+}
+
+button.green:hover, a.button.green:hover {
+    background-color: green;
+    color: var(--colour-bg);
+}
+
+button:hover, a.button:hover {
+    background-color: var(--colour-primary);
+    color: var(--colour-bg);
+}
+
+button.icon, .account-pill {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+button.logout, button.cancel {
+    color: #af0000;
+    border-color: #af0000;
+}
+
+button.logout svg {
+    fill: #af0000;
+}
+
+button.logout:hover, button.cancel:hover {
+    background-color: #af0000;
+    color: var(--colour-bg);
+}
+
+button.logout:hover svg {
+    fill: var(--colour-bg);
+}
+
+.account-pill {
+    background-color: var(--colour-primary);
+    color: var(--colour-bg);
+    cursor: default;
+}
+
+.account-pill svg {
+    fill: var(--colour-bg);
+}
+
+main {
+    box-sizing: border-box;
+    padding: 30px 0px;
+}
+
+section h1 {
+    margin-top: 0px;
+}
+
+.boards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.board {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px 0px #d5d9da;
+}
+
+.board .title-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.board .title-bar .status {
+    opacity: 0.7;
+}
+
+.board h2 {
+    margin: 0px;
+}
+
+.board p {
+    margin: 0px;
+    flex-grow: 1;
+}
+
+.board a {
+    text-align: center;
+}
+
+.board .task-progress {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.board .task-progress .item {
+    flex-grow: 1;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #eee;
+    text-align: center;
+}
+
+.board .task-progress .item.todo {
+    background-color: #ffe9e9;
+    color: #af0000;
+}
+
+.board .task-progress .item.wip {
+    background-color: #fff1d9;
+    color: orange;
+}
+
+.board .task-progress .item.done {
+    background-color: #e8ffe8;
+    color: green;
+}
+
+.board .task-progress .item .title {
+    font-size: 14px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.board .task-progress .item .count {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.board .progress-bar {
+    display: flex;
+}
+
+.board .progress-bar .bar {
+    height: 10px;
+    background-color: #af0000;
+}
+
+.board .progress-bar .bar.wip {
+    background-color: orange;
+}
+
+.board .progress-bar .bar.done {
+    background-color: green;
+}
+
+.no-boards-notice {
+    background-color: white;
+    box-sizing: border-box;
+    padding: 80px;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px 0px #d5d9da;
+    text-align: center;
+    width: 100%;
+}
+
+.no-boards-notice h2 {
+    font-size: 48px;
+    opacity: 0.8;
+}
+
+.no-boards-notice p {
+    font-size: 22px;
+}
+
+.no-boards-notice button {
+    background-color: white;
+    font-size: 20px;
+    padding: 24px 36px;
+    margin-top: 30px;
+}
+
+section.kanban-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+section.kanban-columns .column {
+    background-color: white;
+    box-sizing: border-box;
+    padding: 30px;
+    border-top: 3px solid green;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px 0px #d5d9da;
+}
+
+section.kanban-columns .column .title-bar {
+    text-align: center;
+}
+
+section.kanban-columns .column .title-bar h3 {
+    margin: 0px;
+}
+
+section.kanban-columns .column ul {
+    list-style: none;
+    padding: 0px;
+}
+
+section.kanban-columns .column ul li {
+    margin-top: 20px;
+    border-top: 4px solid var(--colour-bg);
+    box-sizing: border-box;
+    padding-top: 30px;
+}
+
+section.kanban-columns .column ul li .task-title-bar {
+    color: var(--colour-text);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+section.kanban-columns .column ul li .task-detail {
+    box-sizing: border-box;
+    padding: 15px 0px;
+}
+
+section.kanban-columns .column ul li .task-timestamp {
+    opacity: 0.7;
+    font-size: 13px;
+}
+
+section.kanban-columns .column ul li .task-detail p {
+    margin: 0px 0px 20px 0px;
+}
+
+section.kanban-columns .column ul li.no-tasks {
+    font-size: 26px;
+    text-align: center;
+    opacity: 0.6;
+}
+
+.kanban-view-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+p.kanban-board-desc {
+    font-size: 18px;
+    margin-top: 0px;
+}
+
+body.login {
+    text-align: center;
+    background: linear-gradient(-45deg, var(--colour-primary), var(--colour-secondary));
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    box-sizing: border-box;
+    padding-top: 100px;
+}
+
+body.login form {
+    text-align: left;
+}
+
+.login-wrap {
+    background-color: white;
+    box-sizing: border-box;
+    padding: 60px 120px;
+    border-radius: 10px;
+}
+
+.login-wrap h1 {
+    margin-top: 0px;
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--colour-primary);
+}
+
+.login-wrap h1 span {
+    font-weight: 700;
+    color: var(--colour-secondary);
+}
+
+.login-wrap button {
+    background-color: white;
+    width: 100%;
+    margin-top: 30px;
+}
+
+ul.errorlist, .error-notice {
+    color: #af0000;
+    background-color: #ffebeb;
+    box-sizing: border-box;
+    padding: 30px;
+    border-radius: 4px;
+}
+
+.error-notice {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+ul.errorlist {
+    list-style: none;
+}
+
+.about-login {
+    color: white;
+    opacity: 0.8;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.about-login a {
+    color: #85ff85;
+}
+
+.about-login a:hover {
+    filter:brightness(2.0);
+}
+
+form.task-change-state {
+    display: grid;
+    grid-template-columns: 160px 130px;
+}
+
+label.task-state {
+    box-sizing: border-box;
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: 1px solid #878787;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: var(--colour-bg);
+    margin: 0px;
+}
+
+select.change-task-state {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
 }

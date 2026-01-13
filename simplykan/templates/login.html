@@ -1,27 +1,37 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <title>Login SKELETON/TEST</title>
 </head>
-<body>
-    <h1>Login</h1>
-    {% if form.errors %}
-        <p>Invalid</p>
-    {% endif %}
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div>
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            {{ form.username }}
+<body class="login">
+    <div class="limit-width login">
+        <div class="login-wrap">
+            <h1>Simply<span>Kan</span></h1>
+            {% if form.errors %}
+            <div class="error-notice">Sorry we couldn't log you in!</div>
+            {% endif %}
+            <form class="login" method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="input-row">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="input-row">
+                    <label for="{{ form.password.id_for_label }}">Password</label>
+                    {{ form.password }}
+                </div>
+                <button class="green" type="submit">Log in</button>
+            </form>
         </div>
-        <div>
-            <label for="{{ form.password.id_for_label }}">Password</label>
-            {{ form.password }}
+        <div class="about-login">
+            Created by <a href="https://github.com/j0shymitsu">@j0shymitsu</a> and <a href="https://github.com/GingerBunny">@GingerBunny</a>
+            using <a href="https://www.djangoproject.com/">Django</a>
         </div>
-        <button type="submit">Log in</button>
-    </form>
+    </div>
 </body>
 </html>

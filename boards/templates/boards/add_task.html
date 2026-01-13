@@ -3,13 +3,13 @@
 {% block title %}Add task to {{ board.title }}{% endblock %}
 
 {% block content %}
+<div class="limit-width">
     <h1>Add task to {{ board.title }}</h1>
-
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <a class="button" href="{% url 'boards:board_detail' board.id %}">Back to Board</a>
+        <button class="green" type="submit">Save</button>
     </form>
-
-    <a href="{% url 'boards:board_detail' board.id %}">Back to Board</a>
+</div>
 {% endblock %}

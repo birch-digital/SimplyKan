@@ -34,8 +34,29 @@ class UpdateState(forms.ModelForm):
 @login_required
 def dashboard(request):
     boards = Board.objects.filter(owner=request.user).order_by('title')
-    form = BoardForm()
+    for board in boards:
+        tasks = Task.objects.filter(board=board)
+        todo_task_count = 0
+        wip_task_count = 0
+        done_task_count = 0
+        for task in tasks:
+            if (task.state == 0):
+                todo_task_count += 1
+            elif (task.state == 1):
+                wip_task_count += 1
+            else:
+                done_task_count += 1
+        board.todo = todo_task_count
+        board.wip = wip_task_count
+        board.done = done_task_count
+        board.total = tasks.count()
 
+        if (board.total > 0):
+            board.todostyle = '<div class="bar todo" style="width:' + str((todo_task_count / board.total) * 100) + '%"></div>'
+            board.wipstyle = '<div class="bar wip" style="width:' + str((wip_task_count / board.total) * 100) + '%"></div>'
+            board.donestyle = '<div class="bar done" style="width:' + str((done_task_count / board.total) * 100) + '%"></div>'
+
+    form = BoardForm()
     return render(request, 'boards/dashboard.html', {'boards': boards, 'form': form})
 
 ### Board creation
@@ -57,7 +78,15 @@ def board_detail(request, board_id):
     board = get_object_or_404(Board, id=board_id, owner=request.user)
     tasks = Task.objects.filter(board=board).order_by('-timestamp')         # Can remove the order_by for custom ordering if needs be
 
-    return render(request, 'boards/board_detail.html', {'board': board, 'tasks': tasks})
+    class TaskCounts:
+        pass
+
+    counts = TaskCounts()
+    counts.todo = tasks.filter(state=0).count()
+    counts.wip = tasks.filter(state=1).count()
+    counts.done = tasks.filter(state=2).count()
+
+    return render(request, 'boards/board_detail.html', {'board': board, 'tasks': tasks, 'counts': counts})
 
 ### Task creation
 @login_required
