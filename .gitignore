@@ -3,6 +3,7 @@
 
 # Python
 __pycache__/
+/boards/__pycache_
 *.py[cod]
 *$py.class
 
