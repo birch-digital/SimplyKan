@@ -1,26 +1,44 @@
 {% load static %}
-{% block content %}
-<div>
-    <h1>Create an Account</h1>
-
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
-
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.errors %}
-                {{ field.errors }}
-            {% endif %}
-        {% endfor %}
-        <button type="submit">Register</button>
-    </form>
-
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Register | SimplyKan</title>
+</head>
 {% endblock %}
+{% block content %}
+<body class="login">
+    <div class="limit-width login">
+        <div class="login-wrap">
+           <h2>Create an Account</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="input-row">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                {% endfor %}
+                <button class="green" type="submit">Register</button>
+            </form>
+
+            <p class="about-register">Already have an account?<br><a href="{% url 'login' %}">Return to Login</a></p>
+        </div>
+        <div class="about-login">
+            Created by <a href="https://github.com/j0shymitsu">@j0shymitsu</a> and <a href="https://github.com/GingerBunny">@GingerBunny</a>
+            using <a href="https://www.djangoproject.com/">Django</a>
+        </div>
+    </div>
+</body>
+{% endblock %}
+</html>

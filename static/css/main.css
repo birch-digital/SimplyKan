@@ -129,7 +129,7 @@ button, a.button, .account-pill {
     font-weight: 700;
     font-size: inherit;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 button.green, a.button.green {
@@ -425,6 +425,12 @@ body.login form {
     color: var(--colour-primary);
 }
 
+.login-wrap h2 {
+    margin-top: 0px;
+    font-weight: 400;
+    color: var(--colour-primary);
+}
+
 .login-wrap h1 span {
     font-weight: 700;
     color: var(--colour-secondary);
@@ -467,6 +473,23 @@ ul.errorlist {
 
 .about-login a:hover {
     filter:brightness(2.0);
+    transition: 0.3s;
+}
+
+.about-register {
+    opacity: 0.8;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.about-register a {
+    color: var(--colour-primary);
+    text-decoration: none;
+}
+
+.about-register a:hover {
+    color: var(--colour-secondary);
+    transition: 0.3s;
 }
 
 form.task-change-state {
