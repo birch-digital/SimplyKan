@@ -188,7 +188,6 @@ def add_task(request, board_id, sprint_id):
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.board = board
             task.sprint = sprint
             task.save()
             
@@ -210,18 +209,17 @@ def add_task(request, board_id, sprint_id):
 def update_task_state(request, board_id, sprint_id, task_id):
     board = get_object_or_404(Board, id=board_id, owner=request.user)
     sprint = get_object_or_404(Sprint, id=sprint_id, board=board)
-    task = get_object_or_404(Task, id=task_id, board=board)
+    task = get_object_or_404(Task, id=task_id, sprint=sprint)
 
     if request.method == 'POST':
         form = UpdateState(request.POST, instance=task)
 
         if form.is_valid():
             form.save()
-
-    return redirect(
-        'boards:sprint_detail', 
-        board_id=board_id, 
-        sprint_id=sprint_id
-    )
+        return redirect(
+            'boards:sprint_detail', 
+            board_id=board_id, 
+            sprint_id=sprint_id
+        )
 
 
