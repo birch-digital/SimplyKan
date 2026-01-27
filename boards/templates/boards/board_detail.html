@@ -1,18 +1,48 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}{{ board.title }}{% endblock %}
 
 {% block content %}
+<dialog id="_add_dialog">
+    <h1>Add New Sprint To [{{ board.title }}]</h1>
+    <form class="create" method="post" action="{% url 'boards:create_sprint' board.id %}">
+        {% csrf_token %}
+        <div class="input-row">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
+        <div class="input-row">
+            {{ form.start_date.label_tag }}
+            {{ form.start_date }}
+        </div>
+        <div class="input-row">
+            {{ form.due_date.label_tag }}
+            {{ form.due_date }}
+        </div> 
+        <button class="green" type="submit">Add Sprint</button>
+        <button class="cancel" id="_dialog_close" type="button">Cancel</button>
+    </form>
+</dialog>
 <div class="limit-width">
     <div class="kanban-view-header">
-        <h1>{{ board.title }}</h1>
-        <form method="post", action="{% url 'boards:create_sprint' board.id %}">
-        {% csrf_token %}
-          <input type="text" name="title" placeholder="Sprint name" required>
-          <button type="submit" class="button green">Add sprint</button>
-        </form>
+        <div class="header">
+            <h1>{{ board.title }}</h1>
+            <p class="kanban-board-desc">{{ board.description }}</p>
+        </div>
+        <button class="green" id="_add_sprint">Add New Sprint</button>
     </div>
-    <p class="kanban-board-desc">{{ board.description }}</p>
+    {% if sprints %}
+    <section class="sprint-overview">
+    </section>
+    {% else %}
+    <div class="no-boards-notice">
+        <h2>You've got no sprints yet...</h2>
+        <p>Add a new sprint using the button below to get started!</p>
+        <button class="green" id="_add_sprint_big">Add Sprint</button>
+    </div>
+    {% endif %}
     <!-- Sprints -->
     <section>
       <h2>Sprints</h2>
@@ -32,4 +62,5 @@
     </section>
     <a class="button" href="{% url 'boards:dashboard' %}">Back to All Boards</a>
 </div>
+<script src="{% static 'scripts/sprints.js' %}"></script>
 {% endblock %}

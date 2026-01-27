@@ -38,6 +38,7 @@ class SprintForm(forms.ModelForm):
         model = Sprint
         fields = ['title', 'start_date', 'due_date']
         widgets = {
+            'title': forms.TextInput(),
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'due_date': forms.DateInput(attrs={'type': 'date'})
         }
@@ -138,10 +139,12 @@ def board_detail(request, board_id):
     counts.wip = tasks.filter(state=1).count()
     counts.done = tasks.filter(state=2).count()
 
+    form = SprintForm()
+
     return render(
         request, 
         'boards/board_detail.html', 
-        {'board': board, 'sprints': sprints, 'tasks': tasks, 'counts': counts}
+        {'board': board, 'sprints': sprints, 'tasks': tasks, 'counts': counts, 'form': form}
     )
 
 ## ---
