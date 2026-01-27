@@ -7,11 +7,25 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Models
-## Boards: Contain tasks per project/category; users can have multiple boards
+## Board = project: Projects can contain many sprints, sprints contain tasks; 
+## users can have multiple projects
 class Board(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+    
+# Specific chunks of a project, broken down into tasks
+## TODO: Add timeframes
+class Sprint(models.Model):
+    board = models.ForeignKey(
+        Board, 
+        on_delete=models.CASCADE, 
+        related_name='sprints'
+    )
+    title = models.CharField(max_length=40)
 
     def __str__(self):
         return self.title
@@ -23,7 +37,11 @@ class Task(models.Model):
         WIP = 1
         DONE = 2
 
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    sprint = models.ForeignKey(
+        Sprint, 
+        on_delete=models.CASCADE, 
+        related_name='tasks'
+    )
     task_title = models.CharField(max_length=100)
     task_details = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)

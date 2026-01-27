@@ -4,7 +4,7 @@
 
 {% block content %}
 <dialog id="_add_dialog">
-    <h1>Create New Board</h1>
+    <h1>Add New Project</h1>
     <form class="create" action="{% url 'boards:create_board' %}" method="post">
         {% csrf_token %}
         <div class="input-row">
@@ -15,13 +15,13 @@
             {{ form.description.label_tag }}
             {{ form.description }}
         </div>
-        <button class="green" type="submit">Create Board</button>
+        <button class="green" type="submit">Create Project</button>
         <button class="cancel" id="_dialog_close" type="button">Cancel</button>
     </form>
 </dialog>
 <div class="limit-width">
-<button class="green" style="float: right;" id="_add_board">Add New Board</button>
-<h1>Your Boards</h1>
+<button class="green" style="float: right;" id="_add_board">Add New Project</button>
+<h1>Your Projects</h1>
     {% if boards %}
     <div class="boards">
         {% for board in boards %}
@@ -66,9 +66,9 @@
     </ul>
     {% else %}
         <div class="no-boards-notice">
-            <h2>You've got no Kanban boards!</h2>
-            <p>Add a new Kanban board using the button below to get started!</p>
-            <button class="green" id="_add_board_secondary">Add New Board</button>
+            <h2>You've got no projects!</h2>
+            <p>Add a new project using the button below to get started!</p>
+            <button class="green" id="_add_board_secondary">Add Project</button>
         </div>
     {% endif %}
     </div>
