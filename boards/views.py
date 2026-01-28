@@ -10,6 +10,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
+import json
 
 ## ---
 ## App
@@ -129,22 +130,50 @@ def create_board(request):
 def board_detail(request, board_id):
     board = get_object_or_404(Board, id=board_id, owner=request.user)
     sprints = Sprint.objects.filter(board=board).order_by('id')
-    tasks = Task.objects.filter(sprint__board=board).order_by('-timestamp')
 
-    class TaskCounts:
+    class GenericClass:
         pass
 
-    counts = TaskCounts()
-    counts.todo = tasks.filter(state=0).count()
-    counts.wip = tasks.filter(state=1).count()
-    counts.done = tasks.filter(state=2).count()
+    total_tasks = {
+        "todo": 0,
+        "wip": 0,
+        "done": 0
+    }
 
+    sprint_list = []
+    for sprint in sprints:
+        tasks = Task.objects.filter(sprint_id=sprint.id)
+
+        counts = GenericClass()
+        counts.total = tasks.count()
+        counts.todo = tasks.filter(state=0).count()
+        counts.wip = tasks.filter(state=1).count()
+        counts.done = tasks.filter(state=2).count()
+
+        total_tasks["todo"] += counts.todo
+        total_tasks["wip"] += counts.wip
+        total_tasks["done"] += counts.done
+
+        sprintinfo = GenericClass()
+        sprintinfo.counts = counts
+        sprintinfo.info = sprint
+
+        def create_bar(status, percent):
+            return f'<div class="bar {status}" style="width:{percent}%"></div>'
+
+        if counts.total > 0:
+            sprintinfo.todostyle = create_bar('todo', (counts.todo / counts.total) * 100)
+            sprintinfo.wipstyle = create_bar('wip', (counts.wip / counts.total) * 100)
+            sprintinfo.donestyle = create_bar('done', (counts.done / counts.total) * 100)
+
+        sprint_list.append(sprintinfo)
+        
     form = SprintForm()
 
     return render(
         request, 
         'boards/board_detail.html', 
-        {'board': board, 'sprints': sprints, 'tasks': tasks, 'counts': counts, 'form': form}
+        {'board': board, 'sprints': sprint_list, 'form': form, 'pie_data': json.dumps(total_tasks)}
     )
 
 ## ---
