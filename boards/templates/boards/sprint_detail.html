@@ -17,7 +17,7 @@
         <ul>
             {% for task in tasks %}
                 {% if task.state == 0 %}
-                <li>
+                <li class="card-todo">
                     <div class="task-title-bar">
                         {{ task.task_title }}
                     </div>
@@ -54,7 +54,7 @@
         <ul>
             {% for task in tasks %}
                 {% if task.state == 1 %}
-                <li>
+                <li class="card-wip">
                     <div class="task-title-bar">
                         {{ task.task_title }}
                     </div>
@@ -91,7 +91,7 @@
         <ul>
             {% for task in tasks %}
                 {% if task.state == 2 %}
-                <li>
+                <li class="card-done">
                     <div class="task-title-bar">
                         {{ task.task_title }}
                     </div>

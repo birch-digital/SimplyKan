@@ -525,11 +525,16 @@ section.kanban-columns .column ul {
     padding: 0px;
 }
 
+section.kanban-columns .column.wip ul {
+    list-style: none;
+    padding: 0px;
+}
+
 section.kanban-columns .column ul li {
     margin-top: 20px;
-    border-top: 4px solid var(--colour-bg);
+    padding: 20px;
     box-sizing: border-box;
-    padding-top: 30px;
+    border-radius: 15px;
 }
 
 section.kanban-columns .column ul li .task-title-bar {
@@ -556,6 +561,18 @@ section.kanban-columns .column ul li.no-tasks {
     font-size: 26px;
     text-align: center;
     opacity: 0.6;
+}
+
+section.kanban-columns .column ul li.card-todo {
+    background-color: #ffe9e9; 
+}
+
+section.kanban-columns .column ul li.card-wip {
+    background-color: #fff1d9; 
+}
+
+section.kanban-columns .column ul li.card-done {
+    background-color: #e8ffe8; 
 }
 
 .kanban-view-header {
